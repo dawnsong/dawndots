@@ -1,0 +1,130 @@
+#!/bin/bash 
+
+function urlencode(){
+  echo $@ | sed -f ~/projects/kaixin-read-only/dawn/urlencode.sed;
+}
+
+lsgz(){ gzip -l $@; }
+
+
+alias cq='condor_q'
+alias cst='condor_status'
+
+
+#Perl5
+test -d $HOME/perl5/lib/perl5 && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib) 
+importrc $HOME/perl5/perlbrew/etc/bashrc
+
+#ruby gems
+export GEM_HOME=$HOME/gems
+importrc $HOME/.rvm/scripts/rvm
+pathmunge $HOME/.rvm/bin
+pathmunge $HOME/.rvm/usr/bin
+rvm default ruby-1.9.2
+
+findgrep () {   # find | grep
+  if [ $# -eq 0 ]; then
+    echo "findgrep: No arguments entered."; return 1
+  else
+    # "{.[a-zA-Z],}*" instead of "." makes the output cleaner
+    find {.[a-zA-Z],}* -type f | xargs grep -n $* /dev/null \
+        2> /dev/null
+  fi
+}   
+
+function sshto () {
+  host=$1
+  shift
+  if [ $# -eq 0 ]; then 
+    ssh -X $host -t "cd '$PWD'; bash --login"
+  else 
+    ssh $host -t "cd '$PWD'; bash --login" $@
+  fi 
+}
+
+
+#python
+export PYTHONSTARTUP=$HOME/.pythonrc.py
+
+#for R
+#if [ -f $HOME/bin/R ]; then
+#  export R_HOME=$HOME/lib64/R
+#  export PYTHONPATH=${R_HOME}/library/RSPython/libs:$PYTHONPATH 
+#  export PYTHONPATH=${R_HOME}/library/RSPython/Python:$PYTHONPATH 
+#  export LD_LIBRARY_PATH=${R_HOME}/library/RSPython/libs:${R_HOME}/lib:$LD_LIBRARY_PATH
+#fi 
+
+#Vim
+alias vi='DISPLAY= vim'
+alias vim='DISPLAY= vim'
+alias gvim='gvim -X'
+alias vvi=vvim
+
+#Clean PATH, LD_LIBRARY_PATH
+function listpath(){
+  echo $@ |sed 's/:/\n/g' |sed '/^[ \t]*$/d' | sed 's\/$\\g' 
+}
+function cleanpath(){
+  echo $@ | 
+  sed 's/:/\n/g' |
+  sed '/^[ \t]*$/d' | 
+  sed 's\/$\\g' | 
+  gawk '
+  BEGIN{n=1;} 
+  {if( (!($1 in p))&&(0==system(sprintf("test -d %s", $1))) ){p[$1]=NR; sp[n++]=$1;} } 
+  END{for(i=1;i<n;i++)printf(":%s", sp[i]);}' 
+}
+export PATH=$(cleanpath $PATH)
+export LD_LIBRARY_PATH=$( cleanpath $LD_LIBRARY_PATH )
+
+
+#notify-send alias, 20120206
+function alert(){
+  test $# -ge 1 || { echo "alert pid something to say" 1>&2; exit 1; }
+  icond="/usr/share/icons/gnome/scalable/status";
+  pid=$1
+  shift
+  wait $pid && notify-send -i $icond/gtk-dialog-info.svg "$@ ^_^" &
+}
+
+
+# enable color support of ls and also add handy aliases
+if [ "$TERM" != "dumb" ] && [ -x /usr/bin/dircolors ]; then
+    eval "`dircolors -b`"
+    alias ls='ls --color=auto --sort=time --reverse'
+    alias dir='ls --color=auto --format=vertical'
+    alias vdir='ls --color=auto --format=long'
+
+    #alias grep='grep --color=auto -HP'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+
+alias rm='rm -i'
+alias df='df -hl'
+
+#ls related quick access
+alias ..="cd .."
+alias ...="cd ../.."
+alias -- -="cd -"
+alias l.='ls -d .*'
+alias ll='ls -lhvrt'
+alias lld='ls -lUd */'
+md() { mkdir -p "$1" && cd "$1"; } 
+
+#ln to make symbolic links
+lns() { 
+  bd1=`readlink -f "$1"`
+  bd2=`readlink -f "$2"`
+  c=$(python -c "import os; print os.path.commonprefix(['$bd1', '$bd2'])")
+  if [ $c == "/" ]; then 
+    ln -s $(readlink -f "$1") "$2"; 
+  else 
+    ln -s "$1" "$2"; 
+  fi
+}
+
+#
+alias gnuplot='rlwrap -a -c gnuplot'

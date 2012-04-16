@@ -1,0 +1,39 @@
+#!/bin/bash
+
+d(){ displayimage $@ ; }
+v(){ e2display.py $@ ; }
+vs(){ e2display.py --singleimage $@ ; }
+
+#export DAWNTOMODIR=$HOME/programs
+export DAWNTOMODIR=/home/programs
+
+importrc $DAWNTOMODIR/em2em/em2em.bashrc
+importrc $DAWNTOMODIR/fsc/fsc.bashrc
+
+#importrc $DAWNTOMODIR/EMAN/eman.bashrc
+importrc $DAWNTOMODIR/eman.xiangan.linux64/eman.bashrc
+importrc $DAWNTOMODIR/EMAN2/eman2.bashrc
+
+importrc $DAWNTOMODIR/Xmipp/xmipp.bashrc
+
+pathmunge $DAWNTOMODIR/chimera/bin
+
+importrc $DAWNTOMODIR/situs/situs.bashrc
+pathmunge $DAWNTOMODIR/sculptor
+
+importrc $DAWNTOMODIR/IMOD/IMOD-linux.sh
+
+#pathmunge $DAWNTOMODIR/tomoand
+importrc $DAWNTOMODIR/jj.fernandez/jj.fernandez.bashrc
+
+pathmunge $DAWNTOMODIR/ctf.rose2
+
+importrc $DAWNTOMODIR/bsoft/bsoft.bashrc
+pathmunge $DAWNTOMODIR/jsubtomo/bin/
+
+#PROTOMO & I3
+export I3ROOT="$DAWNTOMODIR/i3"
+importrc $I3ROOT/init.sh
+export PROTOMOROOT="$DAWNTOMODIR/protomo"
+importrc $PROTOMOROOT/init.sh
+

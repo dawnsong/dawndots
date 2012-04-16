@@ -1,0 +1,19 @@
+#!/bin/bash 
+export OCTOPRESSD=$HOME/works/octopress/
+
+function jn(){
+  cd $OCTOPRESSD/source/_posts/
+  test $# -ge 1 && {
+    tmp=$(dawn_getmp.sh $0)
+    cmd="rake new_post['$@'] "
+    echo $cmd
+    eval "$cmd" |tee $tmp 
+    p="$HOME/works/octopress/$( awk '/new post:/{print $NF}' $tmp )"
+    gvim $p 
+  }
+}
+function jp(){
+  cd $OCTOPRESSD
+  jekyll $@
+  cd -
+}
