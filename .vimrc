@@ -60,9 +60,11 @@ set background=dark
 "colorscheme koehler
 if has("gui_running")
   colorscheme jellybeans
+  set mouse=a
 else
 "  let g:solarized_termcolors=256
   colorscheme solarized
+  set mouse=  "allow right click to paste from windows"
 endif
 syntax enable
 
@@ -102,7 +104,6 @@ endif " has("autocmd")
 
 "set helplang=cn
 
-set mouse=a
 
 if has("multi_byte")
   if &termencoding == ""
@@ -146,17 +147,17 @@ set noerrorbells
 set nobackup
 "set noswapfile
 
-"NeoComplCache
-"source /home/dawnsong/.vim/bundle/neocomplcache/vimrc
-
 "nvie.com/posts/how-i-boosted-my-vim
 "allow unwritten changes to a file and open a new file using 
 set hidden
 
 set backspace=indent,eol,start  "allow backspace over everything in insert mode"
 
-"pastemode
-set pastetoggle=<F2>
 
-source /home/dawnsong/.vim/bundle/mru.vim/mru.vimrc
+"etc to load
+"NeoComplCache
+source /home/dawnsong/.vim/etc/neocomplcache.vimrc
+source /home/dawnsong/.vim/etc/mru.vimrc
+
+set dictionary+='/usr/share/dict/words'
 

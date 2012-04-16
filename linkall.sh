@@ -16,7 +16,7 @@ td=$(readlink -f $2)
 mkdir -p $td
 
 #copy dir tree without file
-rsync -av --include='*/' --exclude='*'  $fd/ $td/
+rsync -a --include='*/' --exclude='*'  $fd/ $td/
 #clear git directory
 find $td -type d -name '.git' -exec rm -rf {} \;
 
@@ -26,7 +26,7 @@ find $fd | sed '/^.*\.git.*$/d' | xargs tar jcvf $bakf
 #hard link each file
 find $fd -type f  ! -iwholename '*.git*' ! -iwholename '*.hg*' | sed 's|'"$fd"'||g' |
 while read f; do 
-  echo $f
+  #echo $f
   ln $fd/$f  $td/$f
 done
 
