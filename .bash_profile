@@ -22,13 +22,7 @@ export LANGUAGE=en_US.UTF8
 
 export EDITOR=vi
 
-export HOSTNAME=`hostname`'.Neurons'
-#export NETWORK_INTERFACE=192.168.0.117
-#export NETWORK_INTERFACE=`ifconfig eth0|grep "inet addr"|sed 's/[^:]*:\(.*\) B.*/\1/'`
-#i=`/sbin/ifconfig -a|grep 'Link' |sed '/lo/d' |head -1 |sed 's/ .*//'` 
-#export NETWORK_INTERFACE=`/sbin/ifconfig $i |grep "inet addr"|sed 's/[^:]*:\(.*\) B.*/\1/' `
 
-#PATH=""
 
 #Reference: zhup.profile
 ARCH=`uname -m`
@@ -42,7 +36,7 @@ pathmunge () {
            fi
         fi
 }
-pathmunge_many(){
+pathmunges(){
 	for thePath in $@ ; do
 		pathmunge $thePath $2
 		#echo $thePath
@@ -51,20 +45,20 @@ pathmunge_many(){
 }
 #PROTOMO=/home/programs/protomo-${ARCH}
 #I3=/home/programs/i3/${ARCH}
-pathmunge_many /bin /sbin  /usr/local/situs/bin /usr/local/chemira/bin $HOME/abin $HOME/bin
+pathmunges /bin /sbin  /usr/local/situs/bin /usr/local/chemira/bin $HOME/abin $HOME/bin
 
-ldPathMunge(){
+ldpathmunge(){
 	if ! echo $LD_LIBRARY_PATH | /bin/egrep -q "(^|:)$1($|:)" ; then
         	LD_LIBRARY_PATH=$1:$LD_LIBRARY_PATH 
 	fi 
 }
-ldPathMunge_many(){
+ldpathmunges(){
 	for thePath in $@ ; do
 		ldPathMunge $thePath
 	done
 	export LD_LIBRARY_PATH
 }
-ldPathMunge_many /usr/lib /usr/local/lib /home/programs/lib ~/lib/${ARCH}
+ldpathmunges /usr/lib /usr/local/lib /home/programs/lib ~/lib/${ARCH}
 
 #dawnsong Env config
 TIME_LOGIN=`date`
@@ -72,12 +66,16 @@ TIME_LOGIN=`date`
 
 
 # include .tomorc if it exists
-importrc "$HOME/.bash_tomorc"
+#importrc "$HOME/.bash_tomorc"
 
 #Jekyll cmd
-importrc "$HOME/.bash_jekyll"
+#importrc "$HOME/.bash_jekyll"
 #import dawn defined functions
 importrc "$HOME/.bash_dawnfunc"
+importrc "$HOME/.bash_fmri"
+
+#magneto
+importrc $HOME/.bash_magneto
 
 
 #Set mailbox

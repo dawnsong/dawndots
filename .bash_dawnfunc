@@ -1,9 +1,5 @@
 #!/bin/bash 
 
-function urlencode(){
-  echo $@ | sed -f ~/projects/kaixin-read-only/dawn/urlencode.sed;
-}
-
 lsgz(){ gzip -l $@; }
 
 
@@ -15,12 +11,12 @@ alias cst='condor_status'
 test -d $HOME/perl5/lib/perl5 && eval $(perl -I$HOME/perl5/lib/perl5 -Mlocal::lib) 
 importrc $HOME/perl5/perlbrew/etc/bashrc
 
-#ruby gems
-export GEM_HOME=$HOME/gems
-importrc $HOME/.rvm/scripts/rvm
-pathmunge $HOME/.rvm/bin
-pathmunge $HOME/.rvm/usr/bin
-rvm default ruby-1.9.2
+##ruby gems
+#export GEM_HOME=$HOME/gems
+#importrc $HOME/.rvm/scripts/rvm
+#pathmunge $HOME/.rvm/bin
+#pathmunge $HOME/.rvm/usr/bin
+#rvm default ruby-1.9.2
 
 findgrep () {   # find | grep
   if [ $# -eq 0 ]; then
@@ -44,7 +40,12 @@ function sshto () {
 
 
 #python
-export PYTHONSTARTUP=$HOME/.pythonrc.py
+#export PYTHONSTARTUP=$HOME/.pythonrc.py
+[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
+export PYTHONPATH=$HOME/.local/lib64/python2.7/site-packages:$PYTHONPATH
+pathmunge $HOME/.local/bin
+pathmunge $HOME/bin
+pathmunge $HOME/dawn/bin
 
 #for R
 #if [ -f $HOME/bin/R ]; then
@@ -59,6 +60,7 @@ alias vi='DISPLAY= vim'
 alias vim='DISPLAY= vim'
 alias gvim='gvim -X'
 alias vvi=vvim
+alias less="/usr/share/vim/vim73/macros/less.sh"
 
 #Clean PATH, LD_LIBRARY_PATH
 function listpath(){
@@ -112,7 +114,7 @@ alias -- -="cd -"
 alias l.='ls -d .*'
 alias ll='ls -lhvrt'
 alias lld='ls -lUd */'
-md() { mkdir -p "$1" && cd "$1"; } 
+function md() { mkdir -p "$1" && cd "$1"; } 
 
 #ln to make symbolic links
 lns() { 
@@ -128,3 +130,23 @@ lns() {
 
 #
 alias gnuplot='rlwrap -a -c gnuplot'
+
+
+#LSCOLORS
+#eval $(dircolors -b $HOME/dawn/LS_COLORS/LS_COLORS)
+eval $(dircolors -b $HOME/.ls_colors)
+
+alias top='top -u `whoami`'
+
+
+#HISTORY SETTINGS
+#export HISTFILE=~/.bash_history
+#export HISTTIMEFORMAT="%Y-%m-%d.%T "
+export HISTCONTROL=ignoredups:ignorespace
+export HISTIGNORE='[ ]*:&:bg:fg:exit'
+export HISTFILESIZE=100000000
+export HISTSIZE=100000
+shopt -s histappend  #for multi-term
+#export PROMPT_COMMAND="history -a; $PROMPT_COMMAND"  #realtime history update, not after shell logout
+#export PROMPT_COMMAND='hpwd=$(history 1); hpwd="${hpwd# *[0-9 :]*  }"; if [[ ${hpwd%% *} == "cd" ]]; then cwd=$OLDPWD; else cwd=$PWD; fi; hpwd="${hpwd% ### *} ### $cwd"; history -s "$hpwd"'
+
