@@ -54,7 +54,7 @@ ldpathmunge(){
 }
 ldpathmunges(){
 	for thePath in $@ ; do
-		ldPathMunge $thePath
+		ldpathmunge $thePath
 	done
 	export LD_LIBRARY_PATH
 }
