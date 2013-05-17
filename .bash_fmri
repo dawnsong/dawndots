@@ -1,0 +1,4 @@
+#!/bin/bash
+
+pathmunge $HOME/bin/mricron
+pathmunge /usr/local/caret/bin_linux
