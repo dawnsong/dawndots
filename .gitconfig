@@ -1,0 +1,12 @@
+[url "http://"]
+	insteadOf = https://
+[user]
+	name = dawnsong
+	email = dawnwei.song@gmail.com
+[alias]
+	ci = commit
+	st = status
+	co = checkout
+	br = branch
+[core]
+	editor = vim
