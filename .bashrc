@@ -101,18 +101,7 @@ if [ -f /etc/bash_completion ]; then
     . /etc/bash_completion
 fi
 
-#source /usr/local/EMAN/eman.bashrc
-
-#Set locale to Default 
-#export LC_ALL=en_US.UTF8
-#export LANG=en_US.UTF8
-#export LANGUAGE=en_US.UTF8
-
 #
 #export UBUNTU_MENUPROXY=0
 
-#ibus
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
 

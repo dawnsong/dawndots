@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#Fumiko
+fumiko(){ ssh xiaowei@128.218.94.19 ; }
+#pathmunge /home/xiaowei/bak/ants/ants.bin/bin
+
+#importrc $HOME/fmri/fmri.bashrc
+
+
+[[ -s "$HOME/.pythonbrew/etc/bashrc" ]] && source "$HOME/.pythonbrew/etc/bashrc"
+
+
+export RBDIR=/Volumes/PEGASUS/Projects/Dyslexia/ReadingBrain/MRI
+
+
+#condor
+importrc $HOME/condor8/condor.sh
+alias csub=submit.sh
+alias cq=condor_q
+alias cst=condor_status
+
+
