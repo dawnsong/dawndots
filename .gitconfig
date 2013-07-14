@@ -10,3 +10,8 @@
 	br = branch
 [core]
 	editor = vim
+	pager = most
+[color]
+	ui = true
+[color "diff"]
+	meta = blue black bold
